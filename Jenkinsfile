@@ -50,6 +50,7 @@ pipeline {
               docker build -t $IMAGE .
               docker logout
             '''
+                }
             }
         }
 
