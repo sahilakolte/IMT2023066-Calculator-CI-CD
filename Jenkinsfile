@@ -42,7 +42,14 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE .'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub',
+                                          usernameVariable: 'USER',
+                                          passwordVariable: 'PASS')]) {
+            sh '''
+              echo $PASS | docker login -u $USER --password-stdin
+              docker build -t $IMAGE .
+              docker logout
+            '''
             }
         }
 
